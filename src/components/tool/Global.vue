@@ -28,6 +28,7 @@ const requestReleaseServerPath="http://bill.bjwcom.cn:8001/api";
 
 const requestDownLoadServerPath="http://bill.bjwcom.cn/"+(isDev?"testapp":"app");
 const requestServerPath=isDev?requestDevServerPath:requestReleaseServerPath;
+const baiduMapKey="MzriWVdMO3LYa9Pd4jxwXfVg";
 const btnArray = ['否', '是'];
 function getRandColor () {
   var tem = Math.round(Math.random() * colorListLength)
@@ -41,7 +42,8 @@ export default
   getRandColor,
   requestServerPath, 
   requestDownLoadServerPath,
-  btnArray
+  btnArray,
+  baiduMapKey
 }
 </script>
 

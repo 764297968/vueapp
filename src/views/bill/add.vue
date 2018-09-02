@@ -30,12 +30,12 @@
 					</div>
 					<div class="mui-input-row">
 						<label>地址：</label>
-						<input type="text" v-model="bill.Address" class="mui-input-clear" placeholder="相应的地址">
+						<input type="text" v-model="bill.Address" class="mui-input-clear" v-on:focus="getcurrposition" placeholder="相应的地址">
 					</div>
 
 				</div>
+
 				<div class="mui-input-row" style="margin: 10px 0px;">
-					<input class="mui-input-speech mui-input-clear" />
 					<textarea id="textarea" v-model="bill.RemarkInfo" rows="5" placeholder="备注"></textarea>
 				</div>
 				<div class="mui-button-row">
@@ -46,7 +46,6 @@
 		</form>
 	</div>
 </template>
-
 <script>
 	import global_ from '@/components/tool/Global'
 	import axios from 'axios'
@@ -56,7 +55,7 @@
 			return {
 				bill: {
 					ChargeName: "",
-					TypeNmae:"支出",
+					TypeNmae: "支出",
 					TypeId: "1",
 					ChargeTime: "",
 					Money: "",
@@ -73,9 +72,18 @@
 				sessionStorage.removeItem("billdata");
 			}
 			const date = new Date();
-			this.currdate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0"+(date.getDate())).slice(-2);
+			this.currdate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
 
 			this.bill.ChargeTime = this.currdate;
+			var myGeo = new BMap.Geocoder();
+		 
+			myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
+				if(result) {
+					alert(result.address);
+				}
+			});
+			this.getcurrposition();
+
 		},
 		methods: {
 			getParams() {
@@ -127,11 +135,35 @@
 				this.bill = {};
 				this.bill.ChargeTime = this.currdate;
 			},
-			getcurrposition(){
-				plus.geolocation.getCurrentPosition(function(p){
+			getcurrposition() {
+				var geolocation = new BMap.Geolocation();
+				geolocation.getCurrentPosition(function(r) {
+					if(this.getStatus() == BMAP_STATUS_SUCCESS) {
+						alert('您的位置：' + r.point.lng + ',' + r.point.lat);
+						var myGeo = new BMap.Geocoder();
+						myGeo.getLocation(new BMap.Point(r.point.lng, r.point.lat), function(result) {
+							if(result) {
+								alert(result.address);
+							}
+						});
+					} else {
+						alert('failed' + this.getStatus());
+					}
+				});
+				var myGeo = new BMap.Geocoder();
+
+				plus.geolocation.getCurrentPosition(function(p) {
 					console.log('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
-				}, function(e){
-					alert("获取失败"+e.message);
+
+					// 根据坐标得到地址描述    
+					myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
+						if(result) {
+							alert(result.address);
+						}
+					});
+
+				}, function(e) {
+					alert("获取失败" + e.message);
 				});
 			}
 		},
@@ -139,5 +171,4 @@
 	}
 	//{{currdate}}
 	//new Date()
-
 </script>
