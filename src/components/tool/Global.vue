@@ -25,6 +25,8 @@ const colorListLength = 20;
 const isDev=true;
 const requestDevServerPath="http://bill.bjwcom.cn:8002/api";
 const requestReleaseServerPath="http://bill.bjwcom.cn:8001/api";
+
+const requestDownLoadServerPath="http://bill.bjwcom.cn/"+(isDev?"testapp":"app");
 const requestServerPath=isDev?requestDevServerPath:requestReleaseServerPath;
 const btnArray = ['否', '是'];
 function getRandColor () {
@@ -38,6 +40,7 @@ export default
   colorListLength,
   getRandColor,
   requestServerPath, 
+  requestDownLoadServerPath,
   btnArray
 }
 </script>

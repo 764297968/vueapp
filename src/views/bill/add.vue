@@ -35,6 +35,7 @@
 
 				</div>
 				<div class="mui-input-row" style="margin: 10px 0px;">
+					<input class="mui-input-speech mui-input-clear" />
 					<textarea id="textarea" v-model="bill.RemarkInfo" rows="5" placeholder="备注"></textarea>
 				</div>
 				<div class="mui-button-row">
@@ -125,17 +126,18 @@
 			cancelsub() {
 				this.bill = {};
 				this.bill.ChargeTime = this.currdate;
+			},
+			getcurrposition(){
+				plus.geolocation.getCurrentPosition(function(p){
+					console.log('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
+				}, function(e){
+					alert("获取失败"+e.message);
+				});
 			}
 		},
 
 	}
 	//{{currdate}}
 	//new Date()
-	mui.back = function() {
-		that.$router.push({
-			path: '/home/index',
-			//name:"跳转的path也能 ", 
-			query: {}
-		})
-	}
+
 </script>

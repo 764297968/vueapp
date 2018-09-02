@@ -1,11 +1,9 @@
 import Vue from 'vue'
-import global_ from '@/components/tool/Global'
-Vue.prototype.GLOBAL = global_
+
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 //bill
-import billindex from '@/views/bill/index'
-import billbindex from '@/views/bill/bindex'
+import billindex from '@/views/bill/index' 
 import billadd from '@/views/bill/add'
 import billtype from '@/views/bill/type'
  
@@ -32,12 +30,7 @@ export default new Router({
 			path: '/bill/index',
 			name: "billindex",
 			component: billindex
-		},
-		{
-			path: '/bill/bindex',
-			name: "billbindex",
-			component: billbindex
-		},
+		}, 
 		{
 			path: "/bill/add",
 			name: "billadd",
