@@ -1,6 +1,7 @@
 <template>
-	<div>
-		<pull-to :top-load-method="refresh" :bottom-load-method="loadmore">
+	<div style="height: 500px;">
+		<!--:bottom-load-method="loadmore" -->
+		<pull-to :top-load-method="refresh" @infinite-scroll="loadmore">
 			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
 				<li class="mui-table-view-cell" v-for="bill in dataList">
 					<div class="mui-table">
@@ -33,7 +34,8 @@
 		data() {
 			return {
 				dataList: [],
-				index: 1
+				index: 1,
+				size: 6
 			}
 		},
 		mounted() {
@@ -42,49 +44,46 @@
 		methods: {
 			refresh(loaded) {
 				this.index = 1;
-				this.load();
-
-				//     this.fetchDataList()
-				//      .then((res) => {
-				//        this.dataList = res.data.dataList
-				//        loaded('done')
-				//      })
-				loaded('done');
+				this.load(loaded);
 			},
-			loadmore() {
+			scroll() {
 				console.log(2);
-				//this.load();
-
-				let that = this;
+			},
+			loadmore() { 
+				console.log(this.index);
+				mui.showLoading("加载中..", "div");
 				setTimeout(() => {
 					axios.get(global_.requestServerPath + "/bill", {
 						params: {
 							index: this.index,
-							size: 8
+							size: this.size
 						}
 					}).then(resp => {
+
 						mui.hideLoading(h => {});
-						that.dataList.concat(resp.data.data);
-						console.log(that.dataList);
-						that.index += 1;
-						console.log(this.index);
-							loaded('done');
+						if(resp.data.data.length == 0) {
+							return;
+						}
+						this.dataList = this.dataList.concat(resp.data.data);
+						this.index += 1; 
 					})
 				}, 1000);
 
-			
 			},
-			load() {
+			load(loaded) {
 				let that = this;
 				axios.get(global_.requestServerPath + "/bill", {
 					params: {
 						index: this.index,
-						size: 8
+						size: this.size
 					}
 				}).then(resp => {
 					mui.hideLoading(h => {});
-					that.dataList = resp.data.data;
-					this.index = 2;
+					this.dataList = resp.data.data;
+					if(loaded != null) {
+						loaded('done');
+					}
+					this.index = 2; 
 				})
 			}
 		}

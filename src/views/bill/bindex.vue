@@ -1,4 +1,4 @@
-<template>
+<!--<template>
 	<div>
 		<header class="mui-bar mui-bar-nav">
 			<a href="#/" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
@@ -114,4 +114,48 @@
 	}
 
 	var count = 0;
+</script>-->
+
+<template>
+	<pull-to-refresh @on-pullup='onPullup' @on-pulldown='onPulldown'>
+		<ul>
+			<li :key="index" v-for="(item, index) in items">
+				# item {{ index }}
+			</li>
+		</ul>
+	</pull-to-refresh>
+</template>
+<script>
+	import PullToRefresh from 'vue-pull-to-refresh'
+	import global_ from '@/components/tool/Global'
+	import axios from 'axios'
+
+	//var pullToRefresh = mui(selector).pullToRefresh(options);
+	export default {
+		//		//el: '#vapp',
+		data() {
+			return {
+				billdata: [],
+				items:[],
+				index: 1,
+			}
+		},
+		components: {
+			PullToRefresh,
+		},
+		created: function() {
+			//this.init();
+		},
+		methods: {
+			onPullup(finshCallback) {
+				setTimeout(() => {
+					this.items = this.items.concat([6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6])
+					finshCallback(); //finish the refreshing state
+				}, 3000);
+			},
+			onPulldown:function(){
+				console.log(1);
+			}
+		}
+	}
 </script>
