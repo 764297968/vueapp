@@ -60,7 +60,9 @@
 					ChargeTime: "",
 					Money: "",
 					Address: "",
-					RemarkInfo: ""
+					RemarkInfo: "",
+					Lat:"",
+					Lng:""
 				},
 				currdate: ""
 			}
@@ -75,13 +77,13 @@
 			this.currdate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
 
 			this.bill.ChargeTime = this.currdate;
-			var myGeo = new BMap.Geocoder();
-		 
-			myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
-				if(result) {
-					alert(result.address);
-				}
-			});
+//			var myGeo = new BMap.Geocoder();
+//		 
+//			myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
+//				if(result) {
+//					alert(result.address);
+//				}
+//			});
 			this.getcurrposition();
 
 		},
@@ -136,31 +138,24 @@
 				this.bill.ChargeTime = this.currdate;
 			},
 			getcurrposition() {
-				var geolocation = new BMap.Geolocation();
-				geolocation.getCurrentPosition(function(r) {
-					if(this.getStatus() == BMAP_STATUS_SUCCESS) {
-						alert('您的位置：' + r.point.lng + ',' + r.point.lat);
-						var myGeo = new BMap.Geocoder();
-						myGeo.getLocation(new BMap.Point(r.point.lng, r.point.lat), function(result) {
-							if(result) {
-								alert(result.address);
-							}
-						});
-					} else {
-						alert('failed' + this.getStatus());
-					}
-				});
-				var myGeo = new BMap.Geocoder();
-
+			 let that =this; 
 				plus.geolocation.getCurrentPosition(function(p) {
 					console.log('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
-
+					that.bill.Lat=p.coords.latitude;
+					that.bill.Lng=p.coords.longitude;
+					$.getJSON(global_.requestServerPath+"/map",{
+						lat:p.coords.latitude,
+						lng:p.coords.longitude
+					},function(res){
+						console.log(res.result.formatted_address); 
+						that.bill.Address=res.result.formatted_address;
+					})
 					// 根据坐标得到地址描述    
-					myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
-						if(result) {
-							alert(result.address);
-						}
-					});
+//					myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
+//						if(result) {
+//							alert(result.address);
+//						}
+//					});
 
 				}, function(e) {
 					alert("获取失败" + e.message);

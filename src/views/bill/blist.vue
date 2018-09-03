@@ -11,7 +11,7 @@
 			<!--:bottom-load-method="loadmore" -->
 			<pull-to :top-load-method="refresh" @infinite-scroll="loadmore">
 				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-					<li class="mui-table-view-cell" v-for="bill in dataList">
+					<li ref="conli" v-on:mousedown="lidown" v-on:mouseup="liup" v-on:mouseout="liout" class="mui-table-view-cell" v-for="bill in dataList">
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-8">
 								<h4 class="mui-ellipsis">{{bill.chargeName}}_{{bill.typeName}}_{{bill.money}}</h4>
@@ -26,6 +26,23 @@
 
 				</ul>
 			</pull-to>
+		</div>
+		<div id="edit" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a  >编辑信息</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a  style="color: #FF3B30;">删除信息</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a v-on:click="actioncancle"><b>取消</b></a>
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -46,21 +63,26 @@
 				index: 1,
 				size: 5,
 				isload: true,
-				currheight:"",
+				currheight: "",
+				timeout: null,
 			}
 		},
 		mounted() {
 			console.log(this.$refs.contentheigth.offsetHeight)
-			
-			this.currheight= this.$refs.contentheigth.offsetHeight * 15 - 2 + "px";
+
+			this.currheight = this.$refs.contentheigth.offsetHeight * 15 - 2 + "px";
 			//this.$refs.contentheigth.style.height=this.currheight;
 			this.refresh();
+			$("#edit a").click(function() {
+				mui.toast("待开发");
+				mui('#edit').popover('toggle');
+			})
 		},
 		methods: {
 			refresh(loaded) {
 				this.index = 1;
-				
-				this.$refs.contentheigth.style.height=this.currheight;
+
+				this.$refs.contentheigth.style.height = this.currheight;
 				this.load(loaded);
 
 			},
@@ -114,7 +136,7 @@
 					},
 					dataType: "json",
 					async: false,
-					success: function(res) { 
+					success: function(res) {
 						mui.hideLoading(h => {});
 						that.dataList = res.data;
 						if(loaded != null) {
@@ -126,34 +148,28 @@
 							console.log(that.isload);
 							that.$refs.contentheigth.style.height = "100%";
 							that.$refs.contentheigth.offsetHeight * 15 - 2 + "px";
-							 
-						}else{
+
+						} else {
 							that.loadmore();
 						}
 					}
 				})
-				
-				//				axios.get(global_.requestServerPath + "/bill", {
-				//					params: {
-				//						index: this.index,
-				//						size: this.size
-				//					}
-				//				}).then(resp => {
-				//					mui.hideLoading(h => {});
-				//					this.dataList = resp.data.data;
-				//					if(loaded != null) {
-				//						loaded('done');
-				//					}
-				//					this.index += 1;
-				//					if(this.dataList.length < this.size) {
-				//
-				//						this.$refs.contentheigth.style.height = "100%";
-				//						this.$refs.contentheigth.offsetHeight * 10 - 2 + "px";
-				//						return false;
-				//					}
-				//
-				//					this.loadmore();
-				//				})
+
+			},
+			lidown() {
+				this.timeout = setTimeout(function() {
+					console.log("长按");
+					mui('#edit').popover('toggle');
+				}, 2000)
+			},
+			liup() {
+				clearTimeout(this.timeout);
+			},
+			liout() {
+				clearTimeout(this.timeout);
+			},
+			actioncancle() {
+				mui('#edit').popover('toggle');
 			}
 		},
 
