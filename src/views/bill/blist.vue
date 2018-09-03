@@ -11,7 +11,8 @@
 			<!--:bottom-load-method="loadmore" -->
 			<pull-to :top-load-method="refresh" @infinite-scroll="loadmore">
 				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-					<li ref="conli" v-on:mousedown="lidown" v-on:mouseup="liup" v-on:mouseout="liout" class="mui-table-view-cell" v-for="bill in dataList">
+					 
+					<li ref="conli" v-on:click="longtop" class="mui-table-view-cell" v-for="bill in dataList">
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-8">
 								<h4 class="mui-ellipsis">{{bill.chargeName}}_{{bill.typeName}}_{{bill.money}}</h4>
@@ -30,12 +31,12 @@
 		<div id="edit" class="mui-popover mui-popover-action mui-popover-bottom">
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
-					<a  >编辑信息</a>
+					<a v-on:click="acli">编辑信息</a>
 				</li>
 			</ul>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
-					<a  style="color: #FF3B30;">删除信息</a>
+					<a style="color: #FF3B30;" v-on:click="acli">删除信息</a>
 				</li>
 			</ul>
 			<ul class="mui-table-view">
@@ -73,10 +74,8 @@
 			this.currheight = this.$refs.contentheigth.offsetHeight * 15 - 2 + "px";
 			//this.$refs.contentheigth.style.height=this.currheight;
 			this.refresh();
-			$("#edit a").click(function() {
-				mui.toast("待开发");
-				mui('#edit').popover('toggle');
-			})
+			//mui(".mui-table-view li").on("longtap", "li", this.longtop());
+			 
 		},
 		methods: {
 			refresh(loaded) {
@@ -169,6 +168,14 @@
 				clearTimeout(this.timeout);
 			},
 			actioncancle() {
+				mui('#edit').popover('toggle');
+			},
+			longtop() {
+				console.log(1);
+				mui('#edit').popover('toggle');
+			},
+			acli(){
+				mui.toast("待开发");
 				mui('#edit').popover('toggle');
 			}
 		},
