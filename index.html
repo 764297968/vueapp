@@ -28,7 +28,17 @@
 		<script>
 			//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
 			//mui.hideLoading(callback);//隐藏后的回调函数
-
+			mui.init({
+				gestureConfig: {
+					tap: true, //默认为true
+					doubletap: true, //默认为false
+					longtap: true, //默认为false
+					swipe: true, //默认为true
+					drag: true, //默认为true
+					hold: false, //默认为false，不监听
+					release: false //默认为false，不监听
+				}
+			});
 			//扩展mui.showLoading
 			(function($, window) {
 				//显示加载框
