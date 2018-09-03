@@ -140,6 +140,7 @@
 			getcurrposition() {
 			 let that =this; 
 				plus.geolocation.getCurrentPosition(function(p) {
+					//alert(p.coords.latitude);
 					console.log('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
 					that.bill.Lat=p.coords.latitude;
 					that.bill.Lng=p.coords.longitude;
@@ -147,15 +148,11 @@
 						lat:p.coords.latitude,
 						lng:p.coords.longitude
 					},function(res){
+						//alert("2");
 						console.log(res.result.formatted_address); 
 						that.bill.Address=res.result.formatted_address;
 					})
-					// 根据坐标得到地址描述    
-//					myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
-//						if(result) {
-//							alert(result.address);
-//						}
-//					});
+					// 根据坐标得到地址描述     
 
 				}, function(e) {
 					alert("获取失败" + e.message);
