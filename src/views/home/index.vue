@@ -10,10 +10,10 @@
 
 					</div>
 					<div class="title" style="margin-bottom: 25px;color: white;"></div>
-					<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
+					<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted" style="text-align: center;">
 						<li class="mui-table-view-cell">
 							<a class="mui-navigate-right" href="goup">
-								系统更新
+								系统更新{{goupnum}}
 							</a>
 						</li>
 						<li class="mui-table-view-cell">
@@ -87,7 +87,8 @@
 		data() {
 			return {
 				cibacontent: "",
-				cibatitle: ""
+				cibatitle: "",
+				goupnum: ""
 			}
 		},
 		mounted() {
@@ -130,11 +131,13 @@
 
 			},
 			goup() {
+				let that = this;
 				var url = global_.requestDownLoadServerPath + "/bill.apk"; // 下载文件地址
 				console.log(url);
 				var dtask = plus.downloader.createDownload(url, {}, function(d, status) {
-					mui.hideLoading();
-					if(status == 200) { // 下载成功
+					if(status == 200) {
+						//mui.hideLoading();
+						// 下载成功
 						mui.confirm("有新版本，是否立马安装", "提示", ['取消', '确定'], function(e) {
 							if(e.index == 1) {
 								var path = d.filename;
@@ -148,9 +151,9 @@
 					}
 				});
 				dtask.addEventListener("statechanged", function(d, status) {
-
+					that.goupnum = Number((d.downloadedSize / d.totalSize) * 100).toFixed(2) + "%";
 					console.log(Number((d.downloadedSize / d.totalSize) * 100).toFixed(2) + "%")
-					mui.showLoading(Number((d.downloadedSize / d.totalSize) * 100).toFixed(2) + "%", "div")
+					//mui.showLoading(Number((d.downloadedSize / d.totalSize) * 100).toFixed(2) + "%", "div")
 				})
 				dtask.start();
 			},
@@ -175,10 +178,7 @@
 	}
 </script>
 <style>
-	p {
-		text-indent: 22px;
-	}
-	
+	 
 	span.mui-icon {
 		font-size: 14px;
 		color: #007aff;
