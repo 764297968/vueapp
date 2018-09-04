@@ -86,7 +86,7 @@
 
 			},
 			scroll() {
-				console.log(2);
+				//console.log(2);
 			},
 			loadmore() {
 				console.log(this.isload);
@@ -120,13 +120,7 @@
 
 			},
 			load(loaded) {
-				let that = this;
-				//				$.getJSON(global_.requestServerPath + "/bill", {
-				//					index: this.index,
-				//					size: this.size
-				//				}, function(res) {
-				//					console.log(res);
-				//				})
+				let that = this; 
 				$.ajax({
 					url: global_.requestServerPath + "/bill",
 					data: {

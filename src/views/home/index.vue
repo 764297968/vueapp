@@ -12,7 +12,7 @@
 					<div class="title" style="margin-bottom: 25px;color: white;"></div>
 					<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
 						<li class="mui-table-view-cell">
-							<a class="mui-navigate-right" href="/" v-on:click="goup">
+							<a class="mui-navigate-right" href="goup">
 								系统更新
 							</a>
 						</li>
@@ -91,8 +91,9 @@
 			}
 		},
 		mounted() {
+
 			this.getds();
-			console.log(this.$route.path);
+			this.aclick();
 			let hispath = this.$route.path;
 			let that = this;
 			mui.back = function() {
@@ -109,6 +110,7 @@
 						plus.runtime.quit();
 					}
 				} else {
+					//location.href=hispath;
 					that.$router.push({
 						path: hispath,
 						//name:"跳转的path也能 ", 
@@ -119,9 +121,9 @@
 		},
 		methods: {
 			getds() {
+
 				let that = this;
 				axios.get(global_.requestServerPath + "/data/GetIciba").then(function(res) {
-					console.log(res);
 					that.cibacontent = res.data.note;
 					that.cibatitle = res.data.caption;
 				})
@@ -131,8 +133,9 @@
 				var url = global_.requestDownLoadServerPath + "/bill.apk"; // 下载文件地址
 				console.log(url);
 				var dtask = plus.downloader.createDownload(url, {}, function(d, status) {
+					mui.hideLoading();
 					if(status == 200) { // 下载成功
-						mui.confirm("有新版本，是否后台更新", "提示", ['取消', '确定'], function(e) {
+						mui.confirm("有新版本，是否立马安装", "提示", ['取消', '确定'], function(e) {
 							if(e.index == 1) {
 								var path = d.filename;
 								console.log(d.filename);
@@ -144,22 +147,32 @@
 						//alert("Download failed: " + status);
 					}
 				});
+				dtask.addEventListener("statechanged", function(d, status) {
+
+					console.log(Number((d.downloadedSize / d.totalSize) * 100).toFixed(2) + "%")
+					mui.showLoading(Number((d.downloadedSize / d.totalSize) * 100).toFixed(2) + "%", "div")
+				})
 				dtask.start();
+			},
+			aclick() {
+				let that = this;
+				//$.showLoading
+				mui('body').on('tap', 'a', function() {
+					// 获取地址
+					var href = this.getAttribute('href');
+					if(href == "goup") {
+						that.goup();
+					} else {
+						location.href = href;
+					}
+				})
+				mui("#app").on("swiperight", ".mui-off-canvas-wrap", function() {
+					console.log("滑块");
+					mui('.mui-off-canvas-wrap').offCanvas().show();
+				})
 			}
 		}
 	}
-//	mui('body').on('tap', 'a', function() {
-//		console.log(11);
-//		// 获取地址
-//		var href = this.getAttribute('href');
-//		// 方法一：
-//		location.href = href;
-//		// 方法二：
-//		//  mui.openWindow({
-//		//      id: 'new',
-//		//      url: href
-//		//  })
-//	})
 </script>
 <style>
 	p {

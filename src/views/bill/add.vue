@@ -134,8 +134,12 @@
 				return false;
 			},
 			cancelsub() {
+				let TypeNmae=this.bill.TypeNmae;
+				let Address=this.bill.Address;
 				this.bill = {};
 				this.bill.ChargeTime = this.currdate;
+				this.bill.TypeNmae = this.TypeNmae;
+				this.bill.Address = this.Address;
 			},
 			getcurrposition() {
 			 let that =this; 
