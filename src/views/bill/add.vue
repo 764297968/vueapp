@@ -17,7 +17,7 @@
 					</div>
 					<div class="mui-input-row">
 						<label>类型：</label>
-						<input type="text" required="" v-model="bill.TypeNmae" class="mui-input-clear" placeholder="类型" v-on:click="selecttype">
+						<input type="text" required="" v-model="bill.TypeNmae" class="mui-input-clear" placeholder="类型" v-on:click="selectchargetype">
 						<input type="text" v-model="bill.TypeId" class="mui-input-clear" placeholder="类型" v-on:click="selecttype">
 					</div>
 					<div class="mui-input-row">
@@ -44,8 +44,10 @@
 				</div>
 			</div>
 		</form>
+
 	</div>
 </template>
+
 <script>
 	import global_ from '@/components/tool/Global'
 	import axios from 'axios'
@@ -61,13 +63,14 @@
 					Money: "",
 					Address: "",
 					RemarkInfo: "",
-					Lat:"",
-					Lng:""
+					Lat: "",
+					Lng: ""
 				},
 				currdate: ""
 			}
 		},
 		mounted() {
+
 			const billdata = this.getParams();
 			if(billdata != null) {
 				this.bill = billdata;
@@ -77,13 +80,7 @@
 			this.currdate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
 
 			this.bill.ChargeTime = this.currdate;
-//			var myGeo = new BMap.Geocoder();
-//		 
-//			myGeo.getLocation(new BMap.Point(116.331398, 39.897445), function(result) {
-//				if(result) {
-//					alert(result.address);
-//				}
-//			});
+
 			this.getcurrposition();
 
 		},
@@ -134,37 +131,69 @@
 				return false;
 			},
 			cancelsub() {
-				let TypeNmae=this.bill.TypeNmae;
-				let Address=this.bill.Address;
+				let TypeNmae = this.bill.TypeNmae;
+				let Address = this.bill.Address;
 				this.bill = {};
 				this.bill.ChargeTime = this.currdate;
 				this.bill.TypeNmae = this.TypeNmae;
 				this.bill.Address = this.Address;
 			},
 			getcurrposition() {
-			 let that =this; 
+				let that = this;
 				plus.geolocation.getCurrentPosition(function(p) {
 					//alert(p.coords.latitude);
 					console.log('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
-					that.bill.Lat=p.coords.latitude;
-					that.bill.Lng=p.coords.longitude;
-					$.getJSON(global_.requestServerPath+"/map",{
-						lat:p.coords.latitude,
-						lng:p.coords.longitude
-					},function(res){
+					that.bill.Lat = p.coords.latitude;
+					that.bill.Lng = p.coords.longitude;
+					$.getJSON(global_.requestServerPath + "/map", {
+						lat: p.coords.latitude,
+						lng: p.coords.longitude
+					}, function(res) {
 						//alert("2");
-						console.log(res.result.formatted_address); 
-						that.bill.Address=res.result.formatted_address;
+						console.log(res.result.formatted_address);
+						that.bill.Address = res.result.formatted_address;
 					})
 					// 根据坐标得到地址描述     
 
 				}, function(e) {
 					alert("获取失败" + e.message);
 				});
+			},
+			selectchargetype() {
+				var picker = new mui.PopPicker({
+					layer: 2
+				});
+				picker.setData([{
+					value: '110000',
+					text: '北京市',
+					children: [{
+						value: "110101",
+						text: "东城区"
+					}]
+				}, {
+					value: '120000',
+					text: '天津市',
+					children: [{
+						value: "120101",
+						text: "和平区"
+					}, {
+						value: "120102",
+						text: "河东区"
+					}, {
+						value: "120104",
+						text: "南开区"
+					}]
+				}])
+				picker.pickers[0].setSelectedIndex(1);
+				picker.pickers[1].setSelectedIndex(1);
+				picker.show(function(SelectedItem) {
+					console.log(SelectedItem);
+				})
 			}
-		},
+		}
 
 	}
+
 	//{{currdate}}
 	//new Date()
 </script>
