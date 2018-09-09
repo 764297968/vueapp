@@ -113,7 +113,7 @@
 										that.cancelsub();
 									} else {
 										that.$router.push({
-											path: 'index',
+											path: 'blist',
 											//name:"跳转的path也能 ", 
 											query: {}
 										})
@@ -160,34 +160,18 @@
 				});
 			},
 			selectchargetype() {
+				let that = this;
 				var picker = new mui.PopPicker({
 					layer: 2
 				});
-				picker.setData([{
-					value: '110000',
-					text: '北京市',
-					children: [{
-						value: "110101",
-						text: "东城区"
-					}]
-				}, {
-					value: '120000',
-					text: '天津市',
-					children: [{
-						value: "120101",
-						text: "和平区"
-					}, {
-						value: "120102",
-						text: "河东区"
-					}, {
-						value: "120104",
-						text: "南开区"
-					}]
-				}])
-				picker.pickers[0].setSelectedIndex(1);
+				//data
+				picker.setData(global_.billtype)
+				picker.pickers[0].setSelectedIndex(0);
 				picker.pickers[1].setSelectedIndex(1);
 				picker.show(function(SelectedItem) {
 					console.log(SelectedItem);
+					that.bill.TypeId = SelectedItem[1].value;
+					that.bill.TypeNmae = SelectedItem[1].text;
 				})
 			}
 		}

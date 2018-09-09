@@ -6,21 +6,113 @@
 		</header>
 		<div class="mui-content">
 
-			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-				<li class="mui-table-view-cell" v-for="bill in billdata">
-					<div class="mui-table">
-						<div class="mui-table-cell mui-col-xs-8">
-							<h4 class="mui-ellipsis">{{bill.chargeName}}_{{bill.typeName}}_{{bill.money}}</h4>
-							<h5>地址:{{bill.address}}</h5>
-							<p class="mui-h6 mui-ellipsis">备注:{{bill.remarkInfo}}</p>
-						</div>
-						<div class="mui-table-cell mui-col-xs-4 mui-text-right">
-							<span class="mui-h5">{{bill.chargeTime1}}</span>
+			 
+	<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+				待办公文
+			</a>
+					<a class="mui-control-item" href="#item2mobile">
+				已办公文
+			</a>
+					<a class="mui-control-item" href="#item3mobile">
+				全部公文
+			</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第一个选项卡子项-20
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
-				</li>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
 
-			</ul>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
 
 		</div>
 
@@ -38,20 +130,7 @@
 			}
 		},
 		mounted() {
-			mui.showLoading("加载中..", "div");
-			setTimeout(function(){
-				mui.hideLoading(h=>{});
-			},5000)
-			axios.get(global_.requestServerPath + "/bill", {
-				params: {
-					index: 1,
-					size: 8
-				}
-			}).then(resp => {
-				mui.hideLoading(h=>{});
-				//console.log(resp.data.data)
-				this.billdata = resp.data.data;
-			})
+			 
 		},
 		methods: {
 

@@ -1,8 +1,34 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black><title>webapp</title><link rel=stylesheet href=static/css/mui.min.css><style>/*toast信息提示*/
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset=utf-8>
+		<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name=apple-mobile-web-app-capable content=yes>
+		<meta name=apple-mobile-web-app-status-bar-style content=black>
+		<title>webapp</title>
+		<link rel=stylesheet href=static/css/mui.min.css>
+		<link rel=stylesheet href=static/css/mui.picker.min.css>
+		<link rel=stylesheet href=static/css/mui.poppicker.css>
+		<style>
+			/*toast信息提示*/
 			
 			.mui-toast-container {
 				bottom: 50% !important;
-			}</style><link href=./static/css/app.09171fd9067518dbd2279d89957dd58e.css rel=stylesheet></head><body><div id=app></div><script src=static/js/mui.min.js></script><script src=static/js/mui.picker.min.js></script><script src=static/js/mui.poppicker.js></script><script src=static/js/iconfont.js></script><script type=text/javascript src="http://api.map.baidu.com/api?v=2.0&ak=MzriWVdMO3LYa9Pd4jxwXfVg"></script><script>//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
+			}
+		</style>
+		<link href=./static/css/app.09171fd9067518dbd2279d89957dd58e.css rel=stylesheet>
+	</head>
+
+	<body>
+		<div id=app></div>
+		<script src=static/js/mui.min.js></script>
+		<script src=static/js/mui.picker.min.js></script>
+		<script src=static/js/mui.poppicker.js></script>
+		<script src=static/js/iconfont.js></script>
+		<script type=text/javascript src="http://api.map.baidu.com/api?v=2.0&ak=MzriWVdMO3LYa9Pd4jxwXfVg"></script>
+		<script>
+			//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
 			//mui.hideLoading(callback);//隐藏后的回调函数
 			mui.init({
 				gestureConfig: {
@@ -77,4 +103,39 @@
 						callback && callback();
 					}
 				}
-			})(mui, window);</script><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.86c4c787ac55860f711f.js></script><script type=text/javascript src=./static/js/app.616a4c5ce6c3ea4dca30.js></script></body></html>
+			})(mui, window);
+		</script>
+		<script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script>
+		<script type=text/javascript src=./static/js/vendor.86c4c787ac55860f711f.js></script>
+		<script type=text/javascript src=./static/js/app.44abd6c32a6846ba21da.js></script>
+	</body>
+
+</html>
+<script>
+	function plusReady() {
+		plus.oauth.getServices(function(services) {
+			var auth = services[1]
+			''
+			auth.login(function() {
+				console.log(auth.authResult);
+				userinfo(auth);
+			});
+
+		})
+	}
+	document.addEventListener('plusready', plusReady, false);
+
+	function userinfo(a) {
+		console.log("----- 获取用户信息 -----");
+		a.getUserInfo(function() {
+			console.log("获取用户信息成功：");
+			console.log(JSON.stringify(a.userInfo));
+			var nickname = a.userInfo.nickname || a.userInfo.name || a.userInfo.miliaoNick;
+			plus.nativeUI.alert("欢迎“" + nickname + "”登录！");
+		}, function(e) {
+			 
+			console.log("[" + e.code + "]：" + e.message);
+			plus.nativeUI.alert("获取用户信息失败！", null, "登录");
+		});
+	}
+</script>
