@@ -76,7 +76,7 @@
 		}
 	})
 	sessionStorage.clear();
-	var _toast = false;
+	var _toast = false; 
 	import global_ from '@/components/tool/Global'　
 	import axios from 'axios'
 	mui.plusReady(function() {
@@ -92,8 +92,8 @@
 			}
 		},
 		mounted() {
-
-			this.getds();
+			this.getci();
+			//this.getds();
 			this.aclick();
 			let hispath = this.$route.path;
 			let that = this;
@@ -121,6 +121,26 @@
 			}
 		},
 		methods: {
+			getci() {
+				let that = this;
+				let d = new Date();
+				console.log(d);
+				let m = d.getMonth() + 1;
+				let day = d.getDate();
+				 
+				//m=10;
+				let text = "";
+				if((m % 2) == 1) {
+					console.log(global_.ci[day - 1])
+					text = global_.ci[day - 1].text;
+				} else {
+					console.log(global_.ci[30 + day])
+					text = global_.ci[30 + day].text;
+				}
+				that.cibacontent =text;
+				that.cibatitle = "每日一句";
+
+			},
 			getds() {
 
 				let that = this;
@@ -178,7 +198,6 @@
 	}
 </script>
 <style>
-	 
 	span.mui-icon {
 		font-size: 14px;
 		color: #007aff;

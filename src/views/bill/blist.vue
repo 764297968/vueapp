@@ -11,8 +11,8 @@
 			<!--:bottom-load-method="loadmore" -->
 			<pull-to :top-load-method="refresh" @infinite-scroll="loadmore">
 				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-					 
-					<li ref="conli" v-on:click="longtop" class="mui-table-view-cell" v-for="bill in dataList">
+
+					<li ref="conli" v-on:click="longtop(bill)" class="mui-table-view-cell" v-for="bill in dataList">
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-8">
 								<h4 class="mui-ellipsis">{{bill.chargeName}}_{{bill.typeName}}_{{bill.money}}</h4>
@@ -35,8 +35,9 @@
 				</li>
 			</ul>
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a style="color: #FF3B30;" v-on:click="acli">删除信息</a>
+				<li class="mui-table-view-cell" style="color: #FF3B30;"  v-on:click="del">
+					删除信息
+					
 				</li>
 			</ul>
 			<ul class="mui-table-view">
@@ -49,10 +50,11 @@
 </template>
 
 <script>
-	import PullTo from 'vue-pull-to'
+	import PullTo from 'vue-pull-to';
 	//import { fetchDataList } from 'api' 
-	import global_ from '@/components/tool/Global'
-	import axios from 'axios'
+	import global_ from '@/components/tool/Global';
+	import axios from 'axios';
+	axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 	export default {
 		name: 'refrech',
 		components: {
@@ -66,6 +68,7 @@
 				isload: true,
 				currheight: "",
 				timeout: null,
+				bill: {},
 			}
 		},
 		mounted() {
@@ -75,7 +78,7 @@
 			//this.$refs.contentheigth.style.height=this.currheight;
 			this.refresh();
 			//mui(".mui-table-view li").on("longtap", "li", this.longtop());
-			 
+
 		},
 		methods: {
 			refresh(loaded) {
@@ -120,7 +123,7 @@
 
 			},
 			load(loaded) {
-				let that = this; 
+				let that = this;
 				$.ajax({
 					url: global_.requestServerPath + "/bill",
 					data: {
@@ -164,13 +167,35 @@
 			actioncancle() {
 				mui('#edit').popover('toggle');
 			},
-			longtop() {
+			longtop(b) {
+				this.bill = b;
 				console.log(1);
 				mui('#edit').popover('toggle');
 			},
-			acli(){
+			acli() {
 				mui.toast("待开发");
 				mui('#edit').popover('toggle');
+			},
+			del() {
+				let that = this;
+				console.log(that.bill.accountBookId);
+
+				mui.showLoading("加载中..", "div");
+				$.post(global_.requestServerPath + "/data/deletebill", {
+					id: that.bill.accountBookId
+				}, res => {
+					if(res.code == 1) {
+
+						mui.toast("已删除");
+						that.dataList.splice(that.dataList.indexOf(that.bill), 1);
+					} else {
+						mui.toast("删除失败");
+					}
+
+					mui('#edit').popover('toggle');
+					mui.hideLoading(h => {});
+				})
+				return false;
 			}
 		},
 
