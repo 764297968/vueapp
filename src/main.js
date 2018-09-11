@@ -3,11 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import global_ from '@/components/tool/Global'
+import global_ from '@/components/tool/Global' 
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 Vue.prototype.GLOBAL = global_
 Vue.config.productionTip = false
 window.Promise = require('promise');
-window.$=require('jquery');
+window.$=require('jquery'); 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

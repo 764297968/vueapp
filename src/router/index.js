@@ -8,7 +8,7 @@ import billadd from '@/views/bill/add'
 import billtype from '@/views/bill/type'
  
 import billlist from '@/views/bill/blist'
-
+import billcharts from '@/views/bill/charts'
 //home
 import homeindex from '@/views/home/index'
 Vue.use(Router)
@@ -46,6 +46,11 @@ export default new Router({
 			path: "/bill/blist",
 			name: "billlist",
 			component: billlist
-		} 
+		} ,
+		{
+			path:"/bill/charts",
+			name:"billcharts",
+			component:billcharts
+		}
 	]
 })
