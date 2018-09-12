@@ -274,7 +274,7 @@
 		}]
 	}];
 	const colorListLength = 20;
-	const isDev = false;
+	const isDev = true;
 	const requestDevServerPath = "http://bill.bjwcom.cn:8002/api";
 	const requestReleaseServerPath = "http://bill.bjwcom.cn:8001/api";
 
