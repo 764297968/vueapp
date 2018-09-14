@@ -2,7 +2,7 @@
 			
 			.mui-toast-container {
 				bottom: 50% !important;
-			}</style><link href=./static/css/app.d3dbcf174f6bae21897091b4b2c6ace1.css rel=stylesheet></head><body><div id=app></div><script src=static/js/mui.min.js></script><script src=static/js/mui.picker.min.js></script><script src=static/js/mui.poppicker.js></script><script src=static/js/iconfont.js></script><script type=text/javascript src="http://api.map.baidu.com/api?v=2.0&ak=MzriWVdMO3LYa9Pd4jxwXfVg"></script><script>//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
+			}</style><link href=./static/css/app.55e3a83e88fa7dfe4d91d5fcd27629a6.css rel=stylesheet></head><body><div id=app></div><script src=static/js/mui.min.js></script><script src=static/js/mui.picker.min.js></script><script src=static/js/mui.poppicker.js></script><script src=static/js/iconfont.js></script><script type=text/javascript src="http://api.map.baidu.com/api?v=2.0&ak=MzriWVdMO3LYa9Pd4jxwXfVg"></script><script>//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
 			//mui.hideLoading(callback);//隐藏后的回调函数
 			mui.init({
 				gestureConfig: {
@@ -77,9 +77,10 @@
 						callback && callback();
 					}
 				}
-			})(mui, window);</script><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.8413e16ba83f0eb511f0.js></script><script type=text/javascript src=./static/js/app.db6e29d6060bce057023.js></script></body></html><script>function plusReady() {
+			})(mui, window);</script><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.8413e16ba83f0eb511f0.js></script><script type=text/javascript src=./static/js/app.4f6b20ad3b752bc7da66.js></script></body></html><script>var auth ={};
+	function plusReady() {
 		plus.oauth.getServices(function(services) {
-			var auth = services[1]
+			auth= services[1]
 			''
 			auth.login(function() {
 				console.log(auth.authResult);
@@ -98,8 +99,24 @@
 			var nickname = a.userInfo.nickname || a.userInfo.name || a.userInfo.miliaoNick;
 			plus.nativeUI.alert("欢迎“" + nickname + "”登录！");
 		}, function(e) {
-			 
+
 			console.log("[" + e.code + "]：" + e.message);
 			plus.nativeUI.alert("获取用户信息失败！", null, "登录");
+		});
+	}
+
+	// 注销登录
+	function logoutAll() {
+		outSet("----- 注销登录认证 -----");
+		for(var i in auths) {
+			logout(auths[i]);
+		}
+	}
+
+	function logout(auth) {
+		auth.logout(function() {
+			outLine("注销\"" + auth.description + "\"成功");
+		}, function(e) {
+			outLine("注销\"" + auth.description + "\"失败：" + e.message);
 		});
 	}</script>

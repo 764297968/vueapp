@@ -20,6 +20,10 @@
 							<a class="mui-navigate-right">
 								.........
 							</a>
+						</li><li class="mui-table-view-cell">
+							<a class="mui-navigate-right" href="#" onclick="logoutAll()">
+								.........
+							</a>
 						</li>
 
 					</ul>
@@ -193,7 +197,8 @@
 					console.log("滑块");
 					mui('.mui-off-canvas-wrap').offCanvas().show();
 				})
-			}
+			},
+
 		}
 	}
 </script>

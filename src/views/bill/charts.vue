@@ -12,11 +12,14 @@
 		data() {
 			return {
 				dataList: [],
-				titleArr: []
+				titleArr: [],
+				upmonthList:[],
+				upmonthArr:[]
 			}
 		},
 		mounted() {
 			let data = null;
+			let upmonthdata=null;
 			$.ajax({
 				dataType: "json",
 				url: global_.requestServerPath + "/data/GetWeekStatistics",
@@ -25,8 +28,18 @@
 					data = resp;
 				}
 			})
+			$.ajax({
+				dataType: "json",
+				url: global_.requestServerPath + "/data/GetUpMonth_Statistics",
+				async: false,
+				success: function(resp) {
+					upmonthdata = resp;
+				}
+			})
 			this.dataList = data.data.dataList;
 			this.titleArr = data.data.titleArr;
+			this.upmonthList=upmonthdata.data.dataList;
+			this.upmonthArr=upmonthdata.data.titleArr;
 			this.drawLine();
 			this.monthLine();
 		},
@@ -72,19 +85,21 @@
 				myChart.setOption(option);
 			},
 			monthLine() {
+				let that=this;
 				let myChart = this.$echarts.init(document.getElementById('monthchart'));
 				let option = {
 					xAxis: {
 						type: 'category',
-						data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+						data: that.upmonthArr 
 					},
 					yAxis: {
 						type: 'value'
 					},
 					series: [{
-						data: [820, 932, 901, 934, 1290, 1330, 1320],
+						data: that.upmonthList, 
 						type: 'line',
-						smooth: true
+						smooth: true,
+						 areaStyle: {} 
 					}]
 				};
 
