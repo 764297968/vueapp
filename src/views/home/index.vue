@@ -24,6 +24,10 @@
 							<a class="mui-navigate-right" href="logout"  >
 								logout
 							</a>
+						</li><li class="mui-table-view-cell">
+							<a class="mui-navigate-right" href="#" onclick="logoutAll()">
+								.........
+							</a>
 						</li>
 
 					</ul>

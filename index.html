@@ -114,9 +114,19 @@
 	var auth ={};
 	function plusReady() {
 		plus.oauth.getServices(function(services) {
+<<<<<<< HEAD
 			auth= services[1];
 			 
 			
+=======
+			auth= services[1]
+			''
+			auth.login(function() {
+				console.log(auth.authResult);
+				userinfo(auth);
+			});
+
+>>>>>>> 2718e7811248fc458b53f5186340aba5805338ef
 		})
 	}
 	document.addEventListener('plusready', plusReady, false);
@@ -149,7 +159,11 @@
 		}
 	}
 
+<<<<<<< HEAD
 	function logout() {
+=======
+	function logout(auth) {
+>>>>>>> 2718e7811248fc458b53f5186340aba5805338ef
 		auth.logout(function() {
 			outLine("注销\"" + auth.description + "\"成功");
 		}, function(e) {
