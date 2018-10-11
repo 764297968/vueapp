@@ -111,19 +111,22 @@
 
 </html>
 <script>
+	var auth ={};
 	function plusReady() {
 		plus.oauth.getServices(function(services) {
-			var auth = services[1]
-			''
-			auth.login(function() {
-				console.log(auth.authResult);
-				userinfo(auth);
-			});
-
+			auth= services[1];
+			 
+			
 		})
 	}
 	document.addEventListener('plusready', plusReady, false);
 
+	function login(){
+	  auth.login(function() {
+				console.log(auth.authResult);
+				userinfo(auth);
+			}); 
+	}
 	function userinfo(a) {
 		console.log("----- 获取用户信息 -----");
 		a.getUserInfo(function() {
@@ -132,9 +135,25 @@
 			var nickname = a.userInfo.nickname || a.userInfo.name || a.userInfo.miliaoNick;
 			plus.nativeUI.alert("欢迎“" + nickname + "”登录！");
 		}, function(e) {
-			 
+
 			console.log("[" + e.code + "]：" + e.message);
 			plus.nativeUI.alert("获取用户信息失败！", null, "登录");
+		});
+	}
+
+	// 注销登录
+	function logoutAll() {
+		outSet("----- 注销登录认证 -----");
+		for(var i in auths) {
+			logout(auths[i]);
+		}
+	}
+
+	function logout() {
+		auth.logout(function() {
+			outLine("注销\"" + auth.description + "\"成功");
+		}, function(e) {
+			outLine("注销\"" + auth.description + "\"失败：" + e.message);
 		});
 	}
 </script>

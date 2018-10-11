@@ -1,24 +1,53 @@
 <template>
 	<div>
 		<div id="weekchart" style="height: 300px"></div>
+		<div id="monthchart" style="height: 300px"></div>
 	</div>
 </template>
 
 <script>
+	import global_ from '@/components/tool/Global'
+	import axios from 'axios'
 	export default {
 		data() {
 			return {
-
+				dataList: [],
+				titleArr: [],
+				upmonthList:[],
+				upmonthArr:[]
 			}
 		},
 		mounted() {
+			let data = null;
+			let upmonthdata=null;
+			$.ajax({
+				dataType: "json",
+				url: global_.requestServerPath + "/data/GetWeekStatistics",
+				async: false,
+				success: function(resp) {
+					data = resp;
+				}
+			})
+			$.ajax({
+				dataType: "json",
+				url: global_.requestServerPath + "/data/GetUpMonth_Statistics",
+				async: false,
+				success: function(resp) {
+					upmonthdata = resp;
+				}
+			})
+			this.dataList = data.data.dataList;
+			this.titleArr = data.data.titleArr;
+			this.upmonthList=upmonthdata.data.dataList;
+			this.upmonthArr=upmonthdata.data.titleArr;
 			this.drawLine();
+			this.monthLine();
 		},
 		methods: {
 			drawLine() {
 				// 基于准备好的dom，初始化echarts实例
 				let myChart = this.$echarts.init(document.getElementById('weekchart'))
-				 
+				let that = this;
 				let option = {
 					title: {
 						text: '财务统计',
@@ -34,30 +63,14 @@
 						// top: 'middle',
 						bottom: 10,
 						left: 'center',
-						data: ['西凉', '益州', '兖州', '荆州', '幽州']
+						data: that.titleArr
 					},
 					series: [{
 						type: 'pie',
 						radius: '65%',
 						center: ['50%', '50%'],
 						selectedMode: 'single',
-						data: [{
-								vaue: 535,
-								name: '荆州'
-							},
-							{
-								value: 510,
-								name: '兖州'
-							},
-							{
-								value: 634,
-								name: '益州'
-							},
-							{
-								value: 735,
-								name: '西凉'
-							}
-						],
+						data: that.dataList,
 						itemStyle: {
 							emphasis: {
 								shadowBlur: 10,
@@ -70,7 +83,28 @@
 
 				// 绘制图表
 				myChart.setOption(option);
-			}
+			},
+			monthLine() {
+				let that=this;
+				let myChart = this.$echarts.init(document.getElementById('monthchart'));
+				let option = {
+					xAxis: {
+						type: 'category',
+						data: that.upmonthArr 
+					},
+					yAxis: {
+						type: 'value'
+					},
+					series: [{
+						data: that.upmonthList, 
+						type: 'line',
+						smooth: true,
+						 areaStyle: {} 
+					}]
+				};
+
+				myChart.setOption(option);
+			},
 		}
 	}
 </script>

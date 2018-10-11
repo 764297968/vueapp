@@ -17,8 +17,12 @@
 							</a>
 						</li>
 						<li class="mui-table-view-cell">
-							<a class="mui-navigate-right">
-								.........
+							<a class="mui-navigate-right" href="login"  >
+								login
+							</a>
+						</li><li class="mui-table-view-cell">
+							<a class="mui-navigate-right" href="logout"  >
+								logout
 							</a>
 						</li>
 
@@ -183,9 +187,15 @@
 				mui('body').on('tap', 'a', function() {
 					// 获取地址
 					var href = this.getAttribute('href');
+					console.log(href)
 					if(href == "goup") {
 						that.goup();
-					} else {
+					}else if(href=="login"){
+						login();
+					}else if(href=="logout"){
+						logoutAll();
+					}
+					else {
 						location.href = href;
 					}
 				})
@@ -193,7 +203,8 @@
 					console.log("滑块");
 					mui('.mui-off-canvas-wrap').offCanvas().show();
 				})
-			}
+			},
+
 		}
 	}
 </script>

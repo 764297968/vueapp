@@ -131,12 +131,15 @@
 				return false;
 			},
 			cancelsub() {
-				let TypeNmae = this.bill.TypeNmae;
-				let Address = this.bill.Address;
-				this.bill = {};
-				this.bill.ChargeTime = this.currdate;
-				this.bill.TypeNmae = this.TypeNmae;
-				this.bill.Address = this.Address;
+//				let TypeNmae = this.bill.TypeNmae;
+//				let Address = this.bill.Address;
+//				this.bill = {};
+//				this.bill.ChargeTime = this.currdate;
+//				this.bill.TypeNmae = TypeNmae;
+//				this.bill.Address = this.Address;
+				this.bill.ChargeName="";
+				this.bill.Money="";
+				this.bill.RemarkInfo="";
 			},
 			getcurrposition() {
 				let that = this;

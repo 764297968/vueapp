@@ -1,38 +1,8 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html>
-
-	<head>
-		<meta charset=utf-8>
-		<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-		<meta name=apple-mobile-web-app-capable content=yes>
-		<meta name=apple-mobile-web-app-status-bar-style content=black>
-		<title>webapp</title>
-		<link rel=stylesheet href=static/css/mui.min.css>
-		<link rel=stylesheet href=static/css/mui.picker.min.css>
-		<link rel=stylesheet href=static/css/mui.poppicker.css>
-		<style>
-			/*toast信息提示*/
-=======
 <!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black><title>webapp</title><link rel=stylesheet href=static/css/mui.min.css><link rel=stylesheet href=static/css/mui.picker.min.css><link rel=stylesheet href=static/css/mui.poppicker.css><style>/*toast信息提示*/
->>>>>>> f10a6099893ba9c384884291c4cc125b5f0ff8db
 			
 			.mui-toast-container {
 				bottom: 50% !important;
-			}
-		</style>
-		<link href=./static/css/app.09171fd9067518dbd2279d89957dd58e.css rel=stylesheet>
-	</head>
-
-	<body>
-		<div id=app></div>
-		<script src=static/js/mui.min.js></script>
-		<script src=static/js/mui.picker.min.js></script>
-		<script src=static/js/mui.poppicker.js></script>
-		<script src=static/js/iconfont.js></script>
-		<script type=text/javascript src="http://api.map.baidu.com/api?v=2.0&ak=MzriWVdMO3LYa9Pd4jxwXfVg"></script>
-		<script>
-			//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
+			}</style><link href=./static/css/app.55e3a83e88fa7dfe4d91d5fcd27629a6.css rel=stylesheet></head><body><div id=app></div><script src=static/js/mui.min.js></script><script src=static/js/mui.picker.min.js></script><script src=static/js/mui.poppicker.js></script><script src=static/js/iconfont.js></script><script type=text/javascript src="http://api.map.baidu.com/api?v=2.0&ak=MzriWVdMO3LYa9Pd4jxwXfVg"></script><script>//mui.showLoading("正在加载..","div"); //加载文字和类型，plus环境中类型为div时强制以div方式显示
 			//mui.hideLoading(callback);//隐藏后的回调函数
 			mui.init({
 				gestureConfig: {
@@ -107,29 +77,22 @@
 						callback && callback();
 					}
 				}
-<<<<<<< HEAD
-			})(mui, window);
-		</script>
-		<script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script>
-		<script type=text/javascript src=./static/js/vendor.86c4c787ac55860f711f.js></script>
-		<script type=text/javascript src=./static/js/app.44abd6c32a6846ba21da.js></script>
-	</body>
-
-</html>
-<script>
+			})(mui, window);</script><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.8413e16ba83f0eb511f0.js></script><script type=text/javascript src=./static/js/app.d04b7c63e9b2e9dd0eb0.js></script></body></html><script>var auth ={};
 	function plusReady() {
 		plus.oauth.getServices(function(services) {
-			var auth = services[1]
-			''
-			auth.login(function() {
-				console.log(auth.authResult);
-				userinfo(auth);
-			});
-
+			auth= services[1];
+			 
+			
 		})
 	}
 	document.addEventListener('plusready', plusReady, false);
 
+	function login(){
+	  auth.login(function() {
+				console.log(auth.authResult);
+				userinfo(auth);
+			}); 
+	}
 	function userinfo(a) {
 		console.log("----- 获取用户信息 -----");
 		a.getUserInfo(function() {
@@ -138,12 +101,24 @@
 			var nickname = a.userInfo.nickname || a.userInfo.name || a.userInfo.miliaoNick;
 			plus.nativeUI.alert("欢迎“" + nickname + "”登录！");
 		}, function(e) {
-			 
+
 			console.log("[" + e.code + "]：" + e.message);
 			plus.nativeUI.alert("获取用户信息失败！", null, "登录");
 		});
 	}
-</script>
-=======
-			})(mui, window);</script><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.86c4c787ac55860f711f.js></script><script type=text/javascript src=./static/js/app.6033d42cf2521b579769.js></script></body></html>
->>>>>>> f10a6099893ba9c384884291c4cc125b5f0ff8db
+
+	// 注销登录
+	function logoutAll() {
+		outSet("----- 注销登录认证 -----");
+		for(var i in auths) {
+			logout(auths[i]);
+		}
+	}
+
+	function logout() {
+		auth.logout(function() {
+			outLine("注销\"" + auth.description + "\"成功");
+		}, function(e) {
+			outLine("注销\"" + auth.description + "\"失败：" + e.message);
+		});
+	}</script>
